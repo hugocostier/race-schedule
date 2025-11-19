@@ -4,470 +4,218 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>24H Bathurst Race Schedule - ACC</title>
-    <style>
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
-
-        body {
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            background: linear-gradient(135deg, #1e3c72 0%, #2a5298 100%);
-            color: #333;
-            padding: 20px;
-            line-height: 1.6;
-        }
-
-        .container {
-            max-width: 1200px;
-            margin: 0 auto;
-            background: white;
-            border-radius: 15px;
-            box-shadow: 0 10px 40px rgba(0,0,0,0.3);
-            overflow: hidden;
-        }
-
-        .header {
-            background: linear-gradient(135deg, #d32f2f 0%, #f44336 100%);
-            color: white;
-            padding: 40px 30px;
-            text-align: center;
-        }
-
-        .header h1 {
-            font-size: 2.5em;
-            margin-bottom: 10px;
-            text-shadow: 2px 2px 4px rgba(0,0,0,0.3);
-        }
-
-        .header .race-info {
-            font-size: 1.2em;
-            opacity: 0.95;
-        }
-
-        .content {
-            padding: 30px;
-        }
-
-        .stats-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-            gap: 20px;
-            margin-bottom: 40px;
-        }
-
-        .stat-card {
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-            color: white;
-            padding: 20px;
-            border-radius: 10px;
-            text-align: center;
-            box-shadow: 0 4px 15px rgba(0,0,0,0.1);
-        }
-
-        .stat-card h3 {
-            font-size: 0.9em;
-            opacity: 0.9;
-            margin-bottom: 10px;
-            text-transform: uppercase;
-            letter-spacing: 1px;
-        }
-
-        .stat-card .value {
-            font-size: 1.8em;
-            font-weight: bold;
-        }
-
-        .section {
-            margin-bottom: 40px;
-        }
-
-        .section h2 {
-            color: #d32f2f;
-            border-bottom: 3px solid #d32f2f;
-            padding-bottom: 10px;
-            margin-bottom: 25px;
-            font-size: 1.8em;
-        }
-
-        .schedule-phase {
-            margin-bottom: 35px;
-        }
-
-        .schedule-phase h3 {
-            background: #2a5298;
-            color: white;
-            padding: 12px 20px;
-            border-radius: 8px;
-            margin-bottom: 15px;
-            font-size: 1.3em;
-        }
-
-        .stint-row {
-            display: grid;
-            grid-template-columns: 150px 120px 1fr 100px;
-            gap: 15px;
-            padding: 15px 20px;
-            margin-bottom: 8px;
-            background: #f5f5f5;
-            border-radius: 8px;
-            align-items: center;
-            transition: transform 0.2s, box-shadow 0.2s;
-        }
-
-        .stint-row:hover {
-            transform: translateX(5px);
-            box-shadow: 0 4px 12px rgba(0,0,0,0.1);
-        }
-
-        .stint-row.driver1 {
-            border-left: 5px solid #ff5722;
-        }
-
-        .stint-row.driver2 {
-            border-left: 5px solid #2196f3;
-        }
-
-        .stint-row.driver3 {
-            border-left: 5px solid #4caf50;
-        }
-
-        .stint-row.driver4 {
-            border-left: 5px solid #ff9800;
-        }
-
-        .time {
-            font-weight: bold;
-            color: #1976d2;
-            font-size: 1.1em;
-        }
-
-        .driver {
-            font-weight: bold;
-            font-size: 1.1em;
-        }
-
-        .driver1 .driver { color: #ff5722; }
-        .driver2 .driver { color: #2196f3; }
-        .driver3 .driver { color: #4caf50; }
-        .driver4 .driver { color: #ff9800; }
-
-        .stint-info {
-            color: #666;
-        }
-
-        .badge {
-            background: #ff9800;
-            color: white;
-            padding: 4px 12px;
-            border-radius: 20px;
-            font-size: 0.85em;
-            font-weight: bold;
-            text-align: center;
-        }
-
-        .driver-stats {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-            gap: 20px;
-            margin-top: 20px;
-        }
-
-        .driver-card {
-            padding: 20px;
-            border-radius: 10px;
-            box-shadow: 0 4px 15px rgba(0,0,0,0.1);
-        }
-
-        .driver-card.driver1 { background: linear-gradient(135deg, #ff5722 0%, #ff7043 100%); color: white; }
-        .driver-card.driver2 { background: linear-gradient(135deg, #2196f3 0%, #42a5f5 100%); color: white; }
-        .driver-card.driver3 { background: linear-gradient(135deg, #4caf50 0%, #66bb6a 100%); color: white; }
-        .driver-card.driver4 { background: linear-gradient(135deg, #ff9800 0%, #ffa726 100%); color: white; }
-
-        .driver-card h3 {
-            font-size: 1.5em;
-            margin-bottom: 15px;
-        }
-
-        .driver-card .stat-line {
-            margin: 8px 0;
-            font-size: 1.05em;
-        }
-
-        .notes {
-            background: #fff3cd;
-            border-left: 5px solid #ffc107;
-            padding: 20px;
-            border-radius: 8px;
-            margin-top: 20px;
-        }
-
-        .notes h3 {
-            color: #856404;
-            margin-bottom: 10px;
-        }
-
-        .notes ul {
-            margin-left: 20px;
-            color: #856404;
-        }
-
-        .notes li {
-            margin: 8px 0;
-        }
-
-        @media print {
-            body {
-                background: white;
-                padding: 0;
-            }
-            .container {
-                box-shadow: none;
-            }
-        }
-
-        @media (max-width: 768px) {
-            .stint-row {
-                grid-template-columns: 1fr;
-                gap: 8px;
-            }
-            
-            .header h1 {
-                font-size: 1.8em;
-            }
-            
-            .stats-grid {
-                grid-template-columns: 1fr;
-            }
-        }
-    </style>
+    <link href="style.css" rel="stylesheet" />
 </head>
 <body>
     <div class="container">
         <div class="header">
-            <h1>🏁 24H BATHURST ENDURANCE RACE</h1>
+            <h1>🏁 LSX 24H BATHURST</h1>
             <div class="race-info">
                 Assetto Corsa Competizione<br>
-                Saturday 12:00 → Sunday 12:00
+                Samedi 22 Novembre 12:00 → Dimanche 23 Novembre 12:00
             </div>
         </div>
 
         <div class="content">
             <div class="section">
-                <h2>📊 Key Statistics</h2>
+                <h2>📊 Statistiques clés</h2>
                 <div class="stats-grid">
                     <div class="stat-card">
-                        <h3>Laps per Tank</h3>
-                        <div class="value">32 laps</div>
+                        <h3>Nombre de tour par stint</h3>
+                        <div class="value">32 tours</div>
                     </div>
                     <div class="stat-card">
-                        <h3>Stint Duration</h3>
+                        <h3>Durée d'un stint</h3>
                         <div class="value">~66 min</div>
                     </div>
                     <div class="stat-card">
-                        <h3>Fuel Consumption</h3>
+                        <h3>Consommation d'essence</h3>
                         <div class="value">3.65 L/lap</div>
                     </div>
                     <div class="stat-card">
-                        <h3>Total Stints</h3>
+                        <h3>Stints total</h3>
                         <div class="value">22 stints</div>
                     </div>
                 </div>
             </div>
 
             <div class="section">
-                <h2>🏎️ Race Schedule</h2>
+                <h2>🏎️ Planning de course</h2>
 
                 <div class="schedule-phase">
-                    <h3>SATURDAY - DAY PHASE</h3>
+                    <h3>SAMEDI - JOUR</h3>
                     <div class="stint-row driver1">
                         <div class="time">12:00 - 13:06</div>
-                        <div class="driver">Driver 1</div>
-                        <div class="stint-info">Stint 1 (32 laps)</div>
+                        <div class="driver">KiinGz</div>
+                        <div class="stint-info">Stint 1 (32 tours)</div>
                         <div></div>
                     </div>
                     <div class="stint-row driver2">
                         <div class="time">13:06 - 14:12</div>
-                        <div class="driver">Driver 2</div>
-                        <div class="stint-info">Stint 2 (32 laps)</div>
+                        <div class="driver">BlitZ</div>
+                        <div class="stint-info">Stint 2 (32 tours)</div>
                         <div></div>
                     </div>
                     <div class="stint-row driver3">
                         <div class="time">14:12 - 15:18</div>
-                        <div class="driver">Driver 3</div>
-                        <div class="stint-info">Stint 3 (32 laps)</div>
+                        <div class="driver">Synetic</div>
+                        <div class="stint-info">Stint 3 (32 tours)</div>
                         <div></div>
                     </div>
                     <div class="stint-row driver4">
                         <div class="time">15:18 - 16:24</div>
-                        <div class="driver">Driver 4</div>
-                        <div class="stint-info">Stint 4 (32 laps)</div>
+                        <div class="driver">PullBoy</div>
+                        <div class="stint-info">Stint 4 (32 tours)</div>
                         <div></div>
                     </div>
                     <div class="stint-row driver1">
                         <div class="time">16:24 - 17:30</div>
-                        <div class="driver">Driver 1</div>
-                        <div class="stint-info">Stint 5 (32 laps)</div>
+                        <div class="driver">KiinGz</div>
+                        <div class="stint-info">Stint 5 (32 tours)</div>
                         <div></div>
                     </div>
                     <div class="stint-row driver2">
                         <div class="time">17:30 - 18:36</div>
-                        <div class="driver">Driver 2</div>
-                        <div class="stint-info">Stint 6 (32 laps)</div>
+                        <div class="driver">BlitZ</div>
+                        <div class="stint-info">Stint 6 (32 tours)</div>
                         <div></div>
                     </div>
                 </div>
 
                 <div class="schedule-phase">
-                    <h3>SATURDAY - EVENING/NIGHT PHASE</h3>
+                    <h3>SAMEDI - SOIRÉE</h3>
                     <div class="stint-row driver3">
                         <div class="time">18:36 - 19:42</div>
-                        <div class="driver">Driver 3</div>
-                        <div class="stint-info">Stint 7 (32 laps)</div>
+                        <div class="driver">Synetic</div>
+                        <div class="stint-info">Stint 7 (32 tours)</div>
                         <div></div>
                     </div>
                     <div class="stint-row driver1">
                         <div class="time">19:42 - 20:48</div>
-                        <div class="driver">Driver 1</div>
-                        <div class="stint-info">Stint 8 (32 laps)</div>
+                        <div class="driver">KiinGz</div>
+                        <div class="stint-info">Stint 8 (32 tours)</div>
                         <div></div>
                     </div>
                     <div class="stint-row driver2">
                         <div class="time">20:48 - 21:54</div>
-                        <div class="driver">Driver 2</div>
-                        <div class="stint-info">Stint 9 (32 laps)</div>
+                        <div class="driver">BlitZ</div>
+                        <div class="stint-info">Stint 9 (32 tours)</div>
                         <div></div>
                     </div>
                     <div class="stint-row driver3">
                         <div class="time">21:54 - 23:00</div>
-                        <div class="driver">Driver 3</div>
-                        <div class="stint-info">Stint 10 (32 laps)</div>
+                        <div class="driver">Synetic</div>
+                        <div class="stint-info">Stint 10 (32 tours)</div>
                         <div></div>
                     </div>
                     <div class="stint-row driver1">
                         <div class="time">23:00 - 00:06</div>
-                        <div class="driver">Driver 1</div>
-                        <div class="stint-info">Stint 11 (32 laps)</div>
+                        <div class="driver">KiinGz</div>
+                        <div class="stint-info">Stint 11 (32 tours)</div>
                         <div></div>
                     </div>
                 </div>
 
                 <div class="schedule-phase">
-                    <h3>SUNDAY - NIGHT/EARLY MORNING</h3>
+                    <h3>DIMANCHE - NUIT</h3>
                     <div class="stint-row driver4">
                         <div class="time">00:06 - 01:12</div>
-                        <div class="driver">Driver 4</div>
-                        <div class="stint-info">Stint 12 (32 laps)</div>
+                        <div class="driver">PullBoy</div>
+                        <div class="stint-info">Stint 12 (32 tours)</div>
                         <div class="badge">DOUBLE</div>
                     </div>
                     <div class="stint-row driver4">
                         <div class="time">01:12 - 02:18</div>
-                        <div class="driver">Driver 4</div>
-                        <div class="stint-info">Stint 13 (32 laps)</div>
+                        <div class="driver">PullBoy</div>
+                        <div class="stint-info">Stint 13 (32 tours)</div>
                         <div class="badge">DOUBLE</div>
                     </div>
                     <div class="stint-row driver2">
                         <div class="time">02:18 - 03:24</div>
-                        <div class="driver">Driver 2</div>
-                        <div class="stint-info">Stint 14 (32 laps)</div>
+                        <div class="driver">BlitZ</div>
+                        <div class="stint-info">Stint 14 (32 tours)</div>
                         <div class="badge">DOUBLE</div>
                     </div>
                     <div class="stint-row driver2">
                         <div class="time">03:24 - 04:30</div>
-                        <div class="driver">Driver 2</div>
-                        <div class="stint-info">Stint 15 (32 laps)</div>
+                        <div class="driver">BlitZ</div>
+                        <div class="stint-info">Stint 15 (32 tours)</div>
                         <div class="badge">DOUBLE</div>
                     </div>
                     <div class="stint-row driver3">
                         <div class="time">04:30 - 05:36</div>
-                        <div class="driver">Driver 3</div>
-                        <div class="stint-info">Stint 16 (32 laps)</div>
+                        <div class="driver">Synetic</div>
+                        <div class="stint-info">Stint 16 (32 tours)</div>
                         <div></div>
                     </div>
                     <div class="stint-row driver1">
                         <div class="time">05:36 - 06:42</div>
-                        <div class="driver">Driver 1</div>
-                        <div class="stint-info">Stint 17 (32 laps)</div>
+                        <div class="driver">KiinGz</div>
+                        <div class="stint-info">Stint 17 (32 tours)</div>
                         <div></div>
                     </div>
                 </div>
 
                 <div class="schedule-phase">
-                    <h3>SUNDAY - MORNING/FINAL PHASE</h3>
+                    <h3>DIMANCHE - MATIN</h3>
                     <div class="stint-row driver4">
                         <div class="time">06:42 - 07:48</div>
-                        <div class="driver">Driver 4</div>
-                        <div class="stint-info">Stint 18 (32 laps)</div>
+                        <div class="driver">PullBoy</div>
+                        <div class="stint-info">Stint 18 (32 tours)</div>
                         <div></div>
                     </div>
                     <div class="stint-row driver3">
                         <div class="time">07:48 - 08:54</div>
-                        <div class="driver">Driver 3</div>
-                        <div class="stint-info">Stint 19 (32 laps)</div>
+                        <div class="driver">Synetic</div>
+                        <div class="stint-info">Stint 19 (32 tours)</div>
                         <div></div>
                     </div>
                     <div class="stint-row driver1">
                         <div class="time">08:54 - 10:00</div>
-                        <div class="driver">Driver 1</div>
-                        <div class="stint-info">Stint 20 (32 laps)</div>
+                        <div class="driver">KiinGz</div>
+                        <div class="stint-info">Stint 20 (32 tours)</div>
                         <div></div>
                     </div>
                     <div class="stint-row driver2">
                         <div class="time">10:00 - 11:06</div>
-                        <div class="driver">Driver 2</div>
-                        <div class="stint-info">Stint 21 (32 laps)</div>
+                        <div class="driver">BlitZ</div>
+                        <div class="stint-info">Stint 21 (32 tours)</div>
                         <div></div>
                     </div>
                     <div class="stint-row driver4">
                         <div class="time">11:06 - 12:00</div>
-                        <div class="driver">Driver 4</div>
-                        <div class="stint-info">Stint 22 (~24 laps to finish)</div>
-                        <div class="badge">FINISH</div>
+                        <div class="driver">PullBoy</div>
+                        <div class="stint-info">Stint 22 (~24 tours jusqu'à l'arrivée)</div>
+                        <div class="badge">ARRIVÉE</div>
                     </div>
                 </div>
             </div>
 
             <div class="section">
-                <h2>👥 Driver Statistics</h2>
+                <h2>👥 Statistiques pilotes</h2>
                 <div class="driver-stats">
                     <div class="driver-card driver1">
-                        <h3>Driver 1</h3>
+                        <h3>KiinGz</h3>
                         <div class="stat-line">🏁 <strong>6 stints</strong></div>
                         <div class="stat-line">⏱️ <strong>~6h 36min</strong> total</div>
-                        <div class="stat-line">💤 Multiple 2-4h rest periods</div>
                     </div>
                     <div class="driver-card driver2">
-                        <h3>Driver 2</h3>
+                        <h3>BlitZ</h3>
                         <div class="stat-line">🏁 <strong>6 stints</strong></div>
                         <div class="stat-line">⏱️ <strong>~6h 36min</strong> total</div>
-                        <div class="stat-line">💤 Includes double stint at night</div>
                     </div>
                     <div class="driver-card driver3">
-                        <h3>Driver 3</h3>
+                        <h3>Synetic</h3>
                         <div class="stat-line">🏁 <strong>5 stints</strong></div>
                         <div class="stat-line">⏱️ <strong>~5h 30min</strong> total</div>
-                        <div class="stat-line">💤 Extended rest periods</div>
                     </div>
                     <div class="driver-card driver4">
-                        <h3>Driver 4</h3>
+                        <h3>PullBoy</h3>
                         <div class="stat-line">🏁 <strong>5 stints</strong></div>
                         <div class="stat-line">⏱️ <strong>~5h 48min</strong> total</div>
-                        <div class="stat-line">🚫 Off Sat 19:00-00:00</div>
+                        <div class="stat-line">🚫 Indisponible samedi de 19:00 à 00:00</div>
                     </div>
                 </div>
-            </div>
-
-            <div class="notes">
-                <h3>⚠️ Important Notes</h3>
-                <ul>
-                    <li><strong>Pit stops:</strong> Only 30 seconds if no damage</li>
-                    <li><strong>Driver 4:</strong> Unavailable Saturday 19:00-00:00, compensates with double stint and finish</li>
-                    <li><strong>Night strategy:</strong> Double stints allow extended rest for other drivers</li>
-                    <li><strong>Be flexible:</strong> Adjust schedule for incidents, fatigue, or track conditions</li>
-                    <li><strong>Stay hydrated:</strong> Keep water and snacks ready during long stints</li>
-                    <li><strong>Communication:</strong> Update team on fuel usage and any issues immediately</li>
-                </ul>
             </div>
         </div>
     </div>
